@@ -1,11 +1,28 @@
 package programming.set6.arithmetic;
 
+/*
+Modifications made to this class:
+
+Before, this class was mutable. Now it is immutable.
+
+Before, when someone called add, the actual HandyInt was modified and returned.
+The reason for this being that java is strictly pass by value (meaning: a copy
+is passed) but when passing an object, a copy of the REFERENCE to the actual
+object is passed, resulting in the object that a variable is referring to
+being the same.
+
+Now, when someone calls add, a new HandyInt which is the sum is returned.
+
+The old behaviour led to the output being tied to a factor/exp that was previously modified.
+Now it is not modified anymore due to its immutability.
+ */
+
 /**
  * An integer that provides arithmetic operations for great glory.
  */
 public class HandyInt {
     /** The integer represented by an instance of this class. */
-    private int theInt;
+    private final int theInt;
 
     /**
      * Constructs a new handy integer representing the given int.
@@ -46,8 +63,7 @@ public class HandyInt {
      * @return sum of the two handy integers.
      */
     public HandyInt add(HandyInt other) {
-        theInt += other.theInt;
-        return this;
+        return new HandyInt(theInt+other.theInt);
     }
 
     /**
@@ -59,8 +75,7 @@ public class HandyInt {
      * @return difference of the two handy integers.
      */
     public HandyInt sub(HandyInt other) {
-        theInt -= other.theInt;
-        return this;
+        return new HandyInt(theInt-other.theInt);
     }
 
     @Override
