@@ -71,36 +71,7 @@ public class Date {
         if (other.getYear() != this.year) {
             return 0;
         }
-
-        if (this.month == other.getMonth()) {
-            return other.getDay() - this.day;
-        }
-
-        Date greater, lesser;
-        if (other.getMonth() > this.month || (other.getMonth() == this.month && other.getDay() > this.day)) {
-            greater = other;
-            lesser = this;
-        } else {
-            greater = this;
-            lesser = other;
-        }
-
-        // add the days already gone by in the greater month
-        int days = greater.getDay();
-        // add the remaining days of the lesser month
-        days += Date.getDaysInMonth(lesser.getYear(), lesser.getMonth()) - lesser.getDay();
-
-        // add the months in between
-        for (int month = lesser.month + 1; month < greater.month; month++) {
-            days += Date.getDaysInMonth(lesser.year, month);
-        }
-
-        // if this month was the greater one, return the inverted number of days
-        if (this.month == greater.getMonth()) {
-            return -days;
-        }
-
-        return days;
+        return other.dayOfYear() - this.dayOfYear();
     }
 
     public String toString() {
