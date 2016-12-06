@@ -197,9 +197,9 @@ public class GraphPlotter extends GraphicsProgram {
      * visualized through tiny rectangles with a side length of 1.
      */
     public void plotGraph() {
-        for (double i = MIN_X; i <= MAX_X; i+=0.01) {
+        for (double i = 0; i < WIDTH; i++) {
             GRect rect = new GRect(1, 1);
-            add(rect, xToScreen(i), yToScreen(f(i)));
+            add(rect, i, f(i));
         }
     }
 
