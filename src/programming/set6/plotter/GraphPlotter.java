@@ -101,7 +101,6 @@ public class GraphPlotter extends GraphicsProgram {
      * @return the screen coordinate.
      */
     public double xToScreen(double x) {
-        //return x + 129;
         double xTotal = Math.abs(MIN_X) + Math.abs(MAX_X);
         return x * (WIDTH / xTotal) + Math.abs(MIN_X)/xTotal * WIDTH;
     }
@@ -115,7 +114,8 @@ public class GraphPlotter extends GraphicsProgram {
      * @return the coordinate system coordinate.
      */
     public double screenToX(double screenX) {
-        return 0;
+        double xTotal = Math.abs(MIN_X) + Math.abs(MAX_X);
+        return (screenX - Math.abs(MIN_X)/xTotal * WIDTH) / (WIDTH/xTotal);
     }
 
     /**
@@ -128,7 +128,9 @@ public class GraphPlotter extends GraphicsProgram {
      */
     public double yToScreen(double y) {
         double yTotal = Math.abs(MIN_Y) + Math.abs(MAX_Y);
-        return y * (1 - HEIGHT/yTotal) + Math.abs(MIN_Y) / yTotal * HEIGHT;
+        // the real y value increases if the graph's y decreases, so we use -y,
+        // or the graph would be inverted
+        return -y * (HEIGHT/yTotal) + (Math.abs(MIN_Y) / yTotal) * HEIGHT;
     }
 
     /**
@@ -199,7 +201,7 @@ public class GraphPlotter extends GraphicsProgram {
     public void plotGraph() {
         for (double i = 0; i < WIDTH; i++) {
             GRect rect = new GRect(1, 1);
-            add(rect, i, f(i));
+            add(rect, i, yToScreen(f(screenToX(i))));
         }
     }
 
